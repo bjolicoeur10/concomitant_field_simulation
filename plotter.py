@@ -29,6 +29,23 @@ array_shape = Bc.shape
 print(array_shape)
 std_deviations_list = []
 
+# for i in range(array_shape[3]):
+#     temp = Bc[:,:,:,i]
+#     temp = temp[:,:,:,np.newaxis]
+#     std_deviations = split_matrix(temp)
+#     std_deviations_list.append(std_deviations)
+    
+# std_deviations_list = np.array(std_deviations_list)
+# print(std_deviations_list.size)
+# new_shape = (array_shape[0]-1,array_shape[1] -1 , array_shape[2] -1, array_shape[3])
+# reshaped_matrix = std_deviations_list.reshape(new_shape)
+# print(reshaped_matrix.shape)
+
+
+# Bc = reshaped_matrix
+# Bc = Bc.transpose(2, 0, 1, 3)
+# array_shape = Bc.shape
+# print(array_shape)
 def update(frame):
     ax.clear()
     sc = ax.scatter(x, y, z, c=Bc[:, :, :, frame].flatten(), cmap='viridis')  # Change 'viridis' to any colormap you prefer
