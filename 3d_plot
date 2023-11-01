@@ -1,0 +1,66 @@
+% Example 4D data (time frames)
+% Determine the overall minimum and maximum values in the data
+minValue = min(Bc(:));
+maxValue = max(Bc(:));
+
+% Create a figure for the 3D scatter plot
+figure;
+
+% Specify the name of the output video file
+outputVideoFile = 'scatter_animation.mp4';  % Change this to your desired filename
+if exist(outputVideoFile,'file')
+    delete(outputVideoFile);
+else
+    pass
+end
+% Create a VideoWriter object
+v = VideoWriter(outputVideoFile, 'MPEG-4');
+v.FrameRate = 10;  % Adjust the frame rate as needed
+
+% Open the video file for writing
+open(v);
+
+% Number of times to repeat the animation
+numRepeats = 2;  % Change this to the desired number of repeats
+
+% Loop through the time frames and create an animation
+for repeat = 1:numRepeats
+    for frame = 1:size(Bc, 4)
+        data = Bc(:, :, :, frame);
+        
+        % Create XYZ coordinates for the 3D data
+        [rows, cols, depths] = size(data);
+        [x, y, z] = meshgrid(1:cols, 1:rows, 1:depths);
+        x = x(:);
+        y = y(:);
+        z = z(:);
+        values = data(:);
+        % Create a 3D scatter plot
+        scatter3(x, y, z, 20, values, 'filled');
+        
+        % Set the color limits for the colorbar based on the overall data range
+        caxis([minValue, maxValue]);
+        
+        colorbar;
+
+        % Adjust axis limits if necessary
+        axis([min(x), max(x), min(y), max(y), min(z), max(z)]);
+        
+        % Add a title with the current time frame
+        title(['Time: ', num2str(frame),' ms']);
+        xlabel([num2str(numel(Bc(:,1,1,1))),' cm'])
+        ylabel([num2str(numel(Bc(1,:,1,1))),' cm'])
+        zlabel([num2str(numel(Bc(1,1,:,1))),' cm'])
+        % Display the frame
+        drawnow;
+
+        % Write the frame to the video
+        writeVideo(v, getframe(gcf));
+
+        % Clear the figure for the next frame
+        clf;
+    end
+end
+
+% Close the video file
+close(v);
