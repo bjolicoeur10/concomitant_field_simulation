@@ -1,14 +1,14 @@
 clear all
 close all
 base_width = 10;
-top_width = 6;
+top_width = 2;
 
 % Specify the start points for the gradients for each TR
 all_start = 5;
 start_point_x = all_start;
 start_point_y = all_start;
 start_point_z = all_start;
-height = 0.1; % 100 mT/m gradinet amplitude 
+height = .1; % 100 mT/cm gradinet amplitude 
 array_length = 30;
 
 
@@ -64,4 +64,10 @@ plot(1:numel(Gz_combined), Gz_combined);
 title('Gz')
 xlabel('time (ms)','FontSize',10,'FontWeight','bold')
 
-
+Gx = Gx_combined;
+Gy = Gy_combined;
+Gz = Gz_combined;
+clear Gz_combined;
+clear Gx_combined;
+clear Gy_combined;
+getgrads
